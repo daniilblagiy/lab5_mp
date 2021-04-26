@@ -1,3 +1,4 @@
+using Octokit;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,9 +37,12 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
-        public void OnSearch()
+        public async void OnSearch()
         {
-            EnteredValue = Username;
+            var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+            var user = await github.User.Get(Username);
+
+            EnteredValue = user.Followers + " folks love " + Username + "!";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
