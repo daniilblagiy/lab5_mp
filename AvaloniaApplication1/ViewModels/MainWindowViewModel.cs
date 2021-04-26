@@ -1,3 +1,4 @@
+using AvaloniaApplication1.Models;
 using Octokit;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,9 @@ namespace AvaloniaApplication1.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        public string Greeting => "Welcome to Avalonia!";
-
         private string username;
-        private string entered_value;
+        private string general_profile_info;
+        private IReadOnlyList<Octokit.Repository> repo_list;
 
         public string Username { 
             get { return username; }
@@ -24,15 +24,28 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
-        public string EnteredValue
+        public string GeneralProfileInfo
         {
-            get { return entered_value; }
+            get { return general_profile_info; }
             set
             {
-                if (value != entered_value)
+                if (value != general_profile_info)
                 {
-                    entered_value = value;
-                    OnPropertyChanged(nameof(EnteredValue));
+                    general_profile_info = value;
+                    OnPropertyChanged(nameof(GeneralProfileInfo));
+                }
+            }
+        }
+
+        public IReadOnlyList<Octokit.Repository> RepoList
+        {
+            get { return repo_list; }
+            set
+            {
+                if (value != repo_list)
+                {
+                    repo_list = value;
+                    OnPropertyChanged(nameof(RepoList));
                 }
             }
         }
@@ -40,9 +53,19 @@ namespace AvaloniaApplication1.ViewModels
         public async void OnSearch()
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+            
+            GeneralProfileInfo = "Loading profile...";
+            
             var user = await github.User.Get(Username);
 
-            EnteredValue = user.Followers + " folks love " + Username + "!";
+            GeneralProfileInfo = 
+                user.Name + " (" + user.Login + ")" + "\n" +
+                "Bio: " + user.Bio + "\n" +
+                "Location: " + user.Location + "\n" +
+                "Followers: " + user.Followers + "\n";
+
+            var repos = await github.Repository.GetAllForUser(user.Login);
+            RepoList = repos;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

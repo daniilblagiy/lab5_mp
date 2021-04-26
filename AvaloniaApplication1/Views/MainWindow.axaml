@@ -12,11 +12,28 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50">
-      <TextBlock Text="{Binding Greeting}"/>
-      <TextBox Width="300" Text="{Binding Username}" Watermark="Enter username"/>
-      <Button Content="Hey!" Command="{Binding OnSearch}"/>
-      <TextBlock Text="{Binding EnteredValue}"/>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50">
+      
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <TextBox Width="300" Text="{Binding Username}" Watermark="Enter username"/>
+        <Button Content="Search" Command="{Binding OnSearch}"/>
+      </StackPanel>
+      
+      <TextBlock Text="{Binding GeneralProfileInfo}" Margin="25"/>
+
+      <ScrollViewer Grid.Column="0" Grid.Row="1" Height="450">
+        <ItemsControl Items="{Binding RepoList}" Margin="25">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal" Margin="4">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBlock Text="{Binding StargazersCount}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+      
     </StackPanel>
 
 </Window>
