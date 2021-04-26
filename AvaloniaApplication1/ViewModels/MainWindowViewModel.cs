@@ -9,22 +9,36 @@ namespace AvaloniaApplication1.ViewModels
     {
         public string Greeting => "Welcome to Avalonia!";
 
-        private int count;
+        private string username;
+        private string entered_value;
 
-        public int Count { 
-            get { return count; }
+        public string Username { 
+            get { return username; }
             set {
-                if (value != count)
+                if (value != username)
                 {
-                    count = value;
-                    OnPropertyChanged(nameof(Count));
+                    username = value;
+                    OnPropertyChanged(nameof(Username));
                 }
             }
         }
 
-        public void OnClickCommand()
+        public string EnteredValue
         {
-            Count++;
+            get { return entered_value; }
+            set
+            {
+                if (value != entered_value)
+                {
+                    entered_value = value;
+                    OnPropertyChanged(nameof(EnteredValue));
+                }
+            }
+        }
+
+        public void OnSearch()
+        {
+            EnteredValue = Username;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

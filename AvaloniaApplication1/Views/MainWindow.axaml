@@ -14,8 +14,9 @@
 
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50">
       <TextBlock Text="{Binding Greeting}"/>
-      <TextBox Width="300" Text="{Binding Count}"/>
-      <Button Content="Hey!" Command="{Binding OnClickCommand}"/>
+      <TextBox Width="300" Text="{Binding Username}" Watermark="Enter username"/>
+      <Button Content="Hey!" Command="{Binding OnSearch}"/>
+      <TextBlock Text="{Binding EnteredValue}"/>
     </StackPanel>
 
 </Window>
