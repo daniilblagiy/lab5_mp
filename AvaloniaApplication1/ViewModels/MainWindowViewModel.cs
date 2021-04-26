@@ -10,7 +10,7 @@ namespace AvaloniaApplication1.ViewModels
     public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     {
         private string username;
-        private string general_profile_info;
+        private User profile;
         private IReadOnlyList<Octokit.Repository> repo_list;
 
         public string Username { 
@@ -24,15 +24,15 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
-        public string GeneralProfileInfo
+        public User Profile
         {
-            get { return general_profile_info; }
+            get { return profile; }
             set
             {
-                if (value != general_profile_info)
+                if (value != profile)
                 {
-                    general_profile_info = value;
-                    OnPropertyChanged(nameof(GeneralProfileInfo));
+                    profile = value;
+                    OnPropertyChanged(nameof(Profile));
                 }
             }
         }
@@ -54,17 +54,18 @@ namespace AvaloniaApplication1.ViewModels
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
             
-            GeneralProfileInfo = "Loading profile...";
-            
-            var user = await github.User.Get(Username);
+            //GeneralProfileInfo = "Loading profile...";
 
-            GeneralProfileInfo = 
+            var user = await github.User.Get(Username);
+            Profile = user;
+
+            /*GeneralProfileInfo = 
                 user.Name + " (" + user.Login + ")" + "\n" +
                 "Bio: " + user.Bio + "\n" +
                 "Location: " + user.Location + "\n" +
-                "Followers: " + user.Followers + "\n";
+                "Followers: " + user.Followers + "\n";*/
 
-            var repos = await github.Repository.GetAllForUser(user.Login);
+            var repos = await github.Repository.GetAllForUser(Profile.Login);
             RepoList = repos;
         }
 

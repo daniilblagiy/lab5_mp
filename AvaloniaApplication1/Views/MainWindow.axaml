@@ -19,14 +19,34 @@
         <Button Content="Search" Command="{Binding OnSearch}"/>
       </StackPanel>
       
-      <TextBlock Text="{Binding GeneralProfileInfo}" Margin="25"/>
+      <ContentControl Content="{Binding Profile}">
+        <ContentControl.ContentTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+              <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Name}"/>
+              <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding Login}"/>
+              
+              <TextBlock Grid.Row="1" Grid.Column="0" Text="Bio:"/>
+              <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bio}"/>
+
+              <TextBlock Grid.Row="2" Grid.Column="0" Text="Location: "/>
+              <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Location}"/>
+
+              <TextBlock Grid.Row="3" Grid.Column="0" Text="Followers: "/>
+              <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Followers}"/>
+            </Grid>
+          </DataTemplate>
+        </ContentControl.ContentTemplate>
+      </ContentControl>
 
       <ScrollViewer Grid.Column="0" Grid.Row="1" Height="450">
-        <ItemsControl Items="{Binding RepoList}" Margin="25">
+        <ItemsControl Items="{Binding RepoList}" Margin="25" Width="300">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <StackPanel Orientation="Horizontal" Margin="4">
-                <TextBlock Text="{Binding Name}"/>
+              <StackPanel Orientation="Vertical" Margin="5">
+                <TextBlock FontWeight="Bold" Text="{Binding Name}"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Description}"/>
+                <TextBlock Text="Stars: "/>
                 <TextBlock Text="{Binding StargazersCount}"/>
               </StackPanel>
             </DataTemplate>
