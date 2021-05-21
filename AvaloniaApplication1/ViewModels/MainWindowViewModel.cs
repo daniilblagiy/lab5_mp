@@ -15,6 +15,7 @@ namespace AvaloniaApplication1.ViewModels
         private IReadOnlyList<Octokit.GitHubCommit> commits;
         private bool profile_is_loading = false;
         private bool repos_are_loading = false;
+        private bool commits_are_loading = false;
 
         public string Username { 
             get { return username; }
@@ -92,6 +93,19 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
+        public bool AreCommitsLoading
+        {
+            get { return commits_are_loading; }
+            set
+            {
+                if (value != commits_are_loading)
+                {
+                    commits_are_loading = value;
+                    OnPropertyChanged(nameof(AreCommitsLoading));
+                }
+            }
+        }
+
         public async void OnSearch()
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
@@ -116,9 +130,12 @@ namespace AvaloniaApplication1.ViewModels
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
 
-            var commits = await github.Repository.Commit.GetAll(Profile.Login, repo_name);
+            AreCommitsLoading = true;
 
+            var commits = await github.Repository.Commit.GetAll(Profile.Login, repo_name);
             Commits = commits;
+
+            AreCommitsLoading = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
