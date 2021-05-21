@@ -12,6 +12,7 @@ namespace AvaloniaApplication1.ViewModels
         private string username;
         private User profile;
         private IReadOnlyList<Octokit.Repository> repo_list;
+        private IReadOnlyList<Octokit.GitHubCommit> commits;
         private bool profile_is_loading = false;
         private bool repos_are_loading = false;
 
@@ -48,6 +49,19 @@ namespace AvaloniaApplication1.ViewModels
                 {
                     repo_list = value;
                     OnPropertyChanged(nameof(RepoList));
+                }
+            }
+        }
+
+        public IReadOnlyList<Octokit.GitHubCommit> Commits
+        {
+            get { return commits; }
+            set
+            {
+                if (value != commits)
+                {
+                    commits = value;
+                    OnPropertyChanged(nameof(Commits));
                 }
             }
         }
@@ -103,6 +117,8 @@ namespace AvaloniaApplication1.ViewModels
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
 
             var commits = await github.Repository.Commit.GetAll(Profile.Login, repo_name);
+
+            Commits = commits;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

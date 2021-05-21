@@ -54,6 +54,8 @@
 
       <TextBlock Text="Repositories list is being loaded..." IsVisible="{Binding IsRepoListLoading}"/>
 
+      <StackPanel Orientation="Horizontal" Spacing="20">
+        
       <ScrollViewer Grid.Column="0" Grid.Row="1" Height="450">
         <ItemsControl Items="{Binding RepoList}" Margin="25" Width="300">
           <ItemsControl.ItemTemplate>
@@ -71,6 +73,22 @@
           </ItemsControl.ItemTemplate>
         </ItemsControl>
       </ScrollViewer>
+
+        <ScrollViewer Grid.Column="0" Grid.Row="1" Height="450">
+          <ItemsControl Items="{Binding Commits}" Margin="25" Width="300">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <StackPanel Orientation="Vertical" Margin="5">
+                  <TextBlock Text="{Binding Commit.Author.Name}"/>
+                  <TextBlock Text="{Binding Commit.Author.Date}"/>
+                  <TextBlock Text="{Binding Commit.Message}"/>
+                </StackPanel>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      
+      </StackPanel>
       
     </StackPanel>
 
