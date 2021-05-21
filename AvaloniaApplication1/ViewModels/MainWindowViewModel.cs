@@ -98,6 +98,13 @@ namespace AvaloniaApplication1.ViewModels
             IsRepoListLoading = false;
         }
 
+        public async void OnView(string repo_name)
+        {
+            var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+
+            var commits = await github.Repository.Commit.GetAll(Profile.Login, repo_name);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName = null)
