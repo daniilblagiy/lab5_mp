@@ -18,6 +18,8 @@
         <TextBox Width="300" Text="{Binding Username}" Watermark="Enter username"/>
         <Button Content="Search" Command="{Binding OnSearch}"/>
       </StackPanel>
+
+      <TextBlock Text="Profile info is being loaded..." IsVisible="{Binding IsProfileLoading}"/>
       
       <ContentControl Content="{Binding Profile}">
         <ContentControl.ContentTemplate>
@@ -49,6 +51,8 @@
           </DataTemplate>
         </ContentControl.ContentTemplate>
       </ContentControl>
+
+      <TextBlock Text="Repositories list is being loaded..." IsVisible="{Binding IsRepoListLoading}"/>
 
       <ScrollViewer Grid.Column="0" Grid.Row="1" Height="450">
         <ItemsControl Items="{Binding RepoList}" Margin="25" Width="300">

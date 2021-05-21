@@ -12,6 +12,8 @@ namespace AvaloniaApplication1.ViewModels
         private string username;
         private User profile;
         private IReadOnlyList<Octokit.Repository> repo_list;
+        private bool profile_is_loading = false;
+        private bool repos_are_loading = false;
 
         public string Username { 
             get { return username; }
@@ -50,23 +52,50 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
+        public bool IsProfileLoading
+        {
+            get { return profile_is_loading; }
+            set
+            {
+                if (value != profile_is_loading)
+                {
+                    profile_is_loading = value;
+                    OnPropertyChanged(nameof(IsProfileLoading));
+                }
+            }
+        }
+
+        public bool IsRepoListLoading
+        {
+            get { return repos_are_loading; }
+            set
+            {
+                if (value != repos_are_loading)
+                {
+                    repos_are_loading = value;
+                    OnPropertyChanged(nameof(IsRepoListLoading));
+                }
+            }
+        }
+
         public async void OnSearch()
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
-            
-            //GeneralProfileInfo = "Loading profile...";
+
+            IsProfileLoading = true;
 
             var user = await github.User.Get(Username);
             Profile = user;
 
-            /*GeneralProfileInfo = 
-                user.Name + " (" + user.Login + ")" + "\n" +
-                "Bio: " + user.Bio + "\n" +
-                "Location: " + user.Location + "\n" +
-                "Followers: " + user.Followers + "\n";*/
+            IsProfileLoading = false;
+
+
+            IsRepoListLoading = true;
 
             var repos = await github.Repository.GetAllForUser(Profile.Login);
             RepoList = repos;
+
+            IsRepoListLoading = false;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
