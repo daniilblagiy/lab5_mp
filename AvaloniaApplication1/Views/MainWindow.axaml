@@ -22,19 +22,30 @@
       <ContentControl Content="{Binding Profile}">
         <ContentControl.ContentTemplate>
           <DataTemplate>
-            <Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
-              <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding Name}"/>
-              <TextBlock Grid.Row="0" Grid.Column="4" Text="{Binding Login}"/>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="20">
               
-              <TextBlock Grid.Row="1" Grid.Column="0" Text="Bio:"/>
-              <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Bio}"/>
+              <StackPanel Orientation="Horizontal" Spacing="15">
+                <TextBlock Text="{Binding Name}"/>
+                <TextBlock Text="aka"/>
+                <TextBlock Text="{Binding Login}"/>
+              </StackPanel>
 
-              <TextBlock Grid.Row="2" Grid.Column="0" Text="Location: "/>
-              <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Location}"/>
+              <StackPanel Orientation="Horizontal" Spacing="15">
+                <TextBlock Text="Location: "/>
+                <TextBlock Text="{Binding Location}"/>
+              </StackPanel>
 
-              <TextBlock Grid.Row="3" Grid.Column="0" Text="Followers: "/>
-              <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Followers}"/>
-            </Grid>
+              <StackPanel Orientation="Horizontal" Spacing="15">
+                <TextBlock Text="Followers: "/>
+                <TextBlock Text="{Binding Followers}"/>
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal" Spacing="15">
+                <TextBlock Text="Bio:"/>
+                <TextBox Width="300" Height="80" Text="{Binding Bio}" IsReadOnly="True" AcceptsReturn="True" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+              </StackPanel>
+
+            </StackPanel>
           </DataTemplate>
         </ContentControl.ContentTemplate>
       </ContentControl>
