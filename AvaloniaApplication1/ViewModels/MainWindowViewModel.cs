@@ -16,6 +16,9 @@ namespace AvaloniaApplication1.ViewModels
         private bool profile_is_loading = false;
         private bool repos_are_loading = false;
         private bool commits_are_loading = false;
+        private bool repos_fetched = false;
+        private bool commits_fetched = false;
+        private string repo_to_view = "";
 
         public string Username { 
             get { return username; }
@@ -106,8 +109,53 @@ namespace AvaloniaApplication1.ViewModels
             }
         }
 
+        public bool ReposFetched
+        {
+            get { return repos_fetched; }
+            set
+            {
+                if (value != repos_fetched)
+                {
+                    repos_fetched = value;
+                    OnPropertyChanged(nameof(ReposFetched));
+                }
+            }
+        }
+
+        public bool CommitsFetched
+        {
+            get { return commits_fetched; }
+            set
+            {
+                if (value != commits_fetched)
+                {
+                    commits_fetched = value;
+                    OnPropertyChanged(nameof(CommitsFetched));
+                }
+            }
+        }
+
+        public string RepoToView
+        {
+            get { return repo_to_view; }
+            set
+            {
+                if (value != repo_to_view)
+                {
+                    repo_to_view = value;
+                    OnPropertyChanged(nameof(RepoToView));
+                }
+            }
+        }
+
         public async void OnSearch()
         {
+            ReposFetched = false;
+            CommitsFetched = false;
+            RepoList = null;
+            Commits = null;
+            Profile = null;
+
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
 
             IsProfileLoading = true;
@@ -124,6 +172,7 @@ namespace AvaloniaApplication1.ViewModels
             RepoList = repos;
 
             IsRepoListLoading = false;
+            ReposFetched = true;
         }
 
         public async void OnView(string repo_name)
@@ -136,6 +185,8 @@ namespace AvaloniaApplication1.ViewModels
             Commits = commits;
 
             AreCommitsLoading = false;
+            RepoToView = repo_name;
+            CommitsFetched = true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
