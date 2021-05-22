@@ -177,6 +177,8 @@ namespace AvaloniaApplication1.ViewModels
 
         public async void OnView(string repo_name)
         {
+            CommitsFetched = false;
+
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
 
             AreCommitsLoading = true;
